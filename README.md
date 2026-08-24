@@ -1,8 +1,10 @@
-I'm working through the course as part of a daily agentic AI study practice , and everything I build lands here — from the first "hello world" agent to persona experiments and tool-calling exercises.
+# DeepAgents Study Lab
+
+I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, and MCP integrations.
 
 ## What are deep agents?
 
-Deep agents are LLM agents that go beyond a single model call: they combine a model, tools, persistent state, and planning to complete multi-step tasks. The `deepagents` library packages these primitives behind one entry point:
+Deep agents are LLM agents that go beyond a single model call: they combine a model, tools, persistent state, and planning to complete multi-step tasks. The [`deepagents`](https://github.com/langchain-ai/deepagents) library packages these primitives behind one entry point:
 
 ```python
 from deepagents import create_deep_agent
@@ -19,18 +21,24 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 
 | Path | Description |
 |------|-------------|
-| [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, and custom tool calling |
+| [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, and MCP tool integration |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Check back for tool use, planning, sub-agents, and multi-step task exercises.
+> This repository grows as I progress through the course. Coming next: planning, sub-agents, and multi-step task exercises.
 
 ## Getting started
 
 ```bash
-pip install deepagents langchain-core
+pip install deepagents langchain-core langchain-mcp-adapters langgraph
 ```
 
-The scripts import a shared `models` module (`from models import model`) that exposes your configured chat model, so set that up first with your provider of choice.
+The scripts import a shared `models` module (`from models import model`) that exposes your configured chat model, so set that up first with your provider of choice:
+
+```python
+# models.py
+from langchain.chat_models import init_chat_model
+model = init_chat_model("your-model", model_provider="your-provider")
+```
 
 Then run any script:
 
@@ -42,7 +50,9 @@ python FirstAgent/scratch_agent.py
 
 - **Agents vs. chatbots** — a model plus tools plus state can act, not just answer
 - **System prompts are architecture** — swapping prompts changes behavior end to end
-- **Tool calling discipline** — agents should look things up before answering
+- **Tool calling discipline** — agents should look things up before answering, and be scoped so they admit what they don't know
+- **Memory is a component** — threads and checkpointers decide what an agent remembers, for how long, and in what scope
+- **MCP extends agents safely** — external tools arrive through adapters, filtered to an explicit allowlist
 - **Cost awareness** — prompt design interacts directly with token spend and caching
 
 ---
