@@ -1,4 +1,6 @@
-Each script explores one core idea of agent design using `create_deep_agent` from the [`deepagents`](https://github.com/langchain-ai/deepagents) library. Read them in order — every script builds on the previous lesson.
+# FirstAgent
+
+My first deep agents, built while taking [Introduction to Deep Agents](https://academy.langchain.com/courses/foundation-introduction-to-deepagents) on LangChain Academy. Each script explores one core idea of agent design using `create_deep_agent` from the [`deepagents`](https://github.com/langchain-ai/deepagents) library. Read them in order — every script builds on the previous lesson.
 
 ## Scripts
 
@@ -46,6 +48,22 @@ tools = [t for t in tools if t.name in ALLOWED]
 
 **Lesson:** real integrations shouldn't get every tool the server offers. Discover → filter → scope is the pattern for safely extending an agent beyond its own code.
 
+### `hitl.py` — human-in-the-loop approval gates
+A doctor's-appointment booking agent whose `book_appointment` tool is gated behind `interrupt_on`. Every proposed call pauses execution mid-run; a human reviews the arguments and answers **approve**, **edit** (swap in corrected args), or **reject**, and the run resumes via `Command(resume=...)` on the same thread.
+
+```python
+agent = create_deep_agent(
+    model=model,
+    tools=[book_appointment],
+    interrupt_on={"book_appointment": {"allowed_decisions": ["approve", "edit", "reject"]}},
+    checkpointer=MemorySaver(),
+)
+# ... later, after reviewing the pending tool call:
+result = agent.invoke(Command(resume={"decisions": decisions}), config=config, version="v2")
+```
+
+**Lesson:** side-effecting tools should never fire unsupervised. The interrupt-resume pattern turns the human into a permission layer — the agent proposes, the person disposes — while the checkpointer keeps the paused conversation alive until a decision arrives.
+
 ## Requirements
 
 ```bash
@@ -70,6 +88,7 @@ python scope.py
 python threads_checkpointers.py
 python checkpoints_homework.py
 python agent_mcp.py
+python hitl.py
 ```
 
 ## Key takeaways so far
@@ -80,3 +99,4 @@ python agent_mcp.py
 4. Prompt length has real cost implications; design with **caching** in mind
 5. Memory = **threads + checkpointers**: same thread persists, others stay isolated, and scope follows the checkpointer instance
 6. External capabilities arrive through **MCP**, and should be filtered to an allowlist before an agent ever sees them
+7. Side-effecting actions belong behind **human-in-the-loop interrupts** — approve, edit, or reject before execution

@@ -1,6 +1,6 @@
 # DeepAgents Study Lab
 
-I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, and MCP integrations.
+I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, and human-in-the-loop approval gates.
 
 ## What are deep agents?
 
@@ -21,10 +21,10 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 
 | Path | Description |
 |------|-------------|
-| [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, and MCP tool integration |
+| [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, MCP tool integration, and human-in-the-loop approval |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Coming next: planning, sub-agents, and multi-step task exercises.
+> This repository grows as I progress through the course. Module 1 is complete. Coming next: execution environments (filesystem backends, sandboxes), planning, sub-agents, and multi-step task exercises.
 
 ## Getting started
 
@@ -53,7 +53,7 @@ python FirstAgent/scratch_agent.py
 - **Tool calling discipline** — agents should look things up before answering, and be scoped so they admit what they don't know
 - **Memory is a component** — threads and checkpointers decide what an agent remembers, for how long, and in what scope
 - **MCP extends agents safely** — external tools arrive through adapters, filtered to an explicit allowlist
-- **Cost awareness** — prompt design interacts directly with token spend and caching
+- **Dangerous actions need gates** — side-effecting tools pause for human approve/edit/reject before they run
 
 ---
 
