@@ -100,3 +100,6 @@ python hitl.py
 5. Memory = **threads + checkpointers**: same thread persists, others stay isolated, and scope follows the checkpointer instance
 6. External capabilities arrive through **MCP**, and should be filtered to an allowlist before an agent ever sees them
 7. Side-effecting actions belong behind **human-in-the-loop interrupts** — approve, edit, or reject before execution
+
+> [!NOTE]
+> Currently studying (Module 2): **execution environments**. A deep agent always gets a filesystem (`ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`) for scratch work and artifacts; an optional shell shows up as the `execute` tool when the backend supports command execution (local shell or sandbox provider); and an optional interpreter — separate from the backend, added as its own tool in the agent loop — runs code-like loops so intermediate values stay in variables instead of returning to the model's context every step. Backends implement the filesystem and shell underneath, while the agent's tool surface stays unchanged. Demo scripts coming soon.
