@@ -1,6 +1,6 @@
 # DeepAgents Study Lab
 
-I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, human-in-the-loop approval gates, and execution environments.
+I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, and human-in-the-loop approval gates.
 
 ## What are deep agents?
 
@@ -22,9 +22,10 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 | Path | Description |
 |------|-------------|
 | [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, MCP tool integration, and human-in-the-loop approval |
+| [`ExecutionEnvironment/`](./ExecutionEnvironment) | Deep agent workspaces — Filesystem backends, local shells, sandboxes, and Code Interpreter middleware for Programmatic Tool Calling (PTC) |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Module 1 is complete. Currently studying **execution environments** — a deep agent always gets a filesystem to work in, an optional shell (the `execute` tool, backed by a local shell or a sandbox), and an optional interpreter for running code inside the agent loop; pluggable backends decide where files live and commands run while the agent's tool surface stays the same. Coming next: planning, sub-agents, and multi-step task exercises.
+> This repository grows as I progress through the course. Modules 1 and 2 are active. Coming next: planning, sub-agents, and multi-step task exercises.
 
 ## Getting started
 
@@ -54,7 +55,8 @@ python FirstAgent/scratch_agent.py
 - **Memory is a component** — threads and checkpointers decide what an agent remembers, for how long, and in what scope
 - **MCP extends agents safely** — external tools arrive through adapters, filtered to an explicit allowlist
 - **Dangerous actions need gates** — side-effecting tools pause for human approve/edit/reject before they run
-- **Agents run in an environment** — a filesystem is always there for scratch work and artifacts, a shell appears as `execute` when the backend supports it, and an interpreter gives code-like loops without burning model turns; swap backends, keep the same tool surface
+- **Execution environments define bounds** — Filesystem backends and sandboxes let agents safely interact with files without bloating the context window
+- **Programmatic Tool Calling (PTC)** — Using a Code Interpreter as middleware, agents can write Javascript to orchestrate tools, reducing slow LLM round-trips from 5 to 2
 
 ---
 
