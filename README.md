@@ -1,4 +1,4 @@
-# DeepAgents Study Lab
+# DeepAgents Study Labs
 
 I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, and human-in-the-loop approval gates.
 
