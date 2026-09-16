@@ -23,9 +23,10 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 |------|-------------|
 | [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, MCP tool integration, and human-in-the-loop approval |
 | [`ExecutionEnvironment/`](./ExecutionEnvironment) | Deep agent workspaces — Filesystem backends, local shells, sandboxes, and Code Interpreter middleware for Programmatic Tool Calling (PTC) |
+| [`ContextManagement/`](./ContextManagement) | Long-term memory — store-backed memory files, composite backends, per-user namespaces, and a homework that proves memory stays isolated between users |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Modules 1 and 2 are active. Coming next: planning, sub-agents, and multi-step task exercises.
+> This repository grows as I progress through the course. Modules 1, 2 and 3 are active. Coming next: planning, sub-agents, and multi-step task exercises.
 
 ## Getting started
 
@@ -57,6 +58,7 @@ python FirstAgent/scratch_agent.py
 - **Dangerous actions need gates** — side-effecting tools pause for human approve/edit/reject before they run
 - **Execution environments define bounds** — Filesystem backends and sandboxes let agents safely interact with files without bloating the context window
 - **Programmatic Tool Calling (PTC)** — Using a Code Interpreter as middleware, agents can write Javascript to orchestrate tools, reducing slow LLM round-trips from 5 to 2
+- **Long-term memory is files plus a namespace** — a store-backed `/memories/` route outlives the thread, and the namespace key is what keeps one user's memory out of another's
 
 ---
 
