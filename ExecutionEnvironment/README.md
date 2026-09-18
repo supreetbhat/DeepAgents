@@ -28,6 +28,24 @@ png_bytes = ls_sandbox.read("/genre_revenue.png")
 
 **Lesson:** files are the interface. Nothing about the database or the chart passes through the context window — the agent writes a script, runs it, and reports that an artifact exists, while the bytes travel in and out by upload and read. This is what keeps a data task from blowing up the prompt.
 
+## Requirements
+
+```bash
+pip install deepagents langgraph langsmith
+```
+
+A shared `models.py` module exposing a configured chat model is expected on the path, and the sandbox scripts need LangSmith credentials in the environment.
+
+## Run
+
+```bash
+python sandbox_agent.py
+python sales_agent.py
+```
+
+> [!WARNING]
+> Both scripts create a real LangSmith sandbox. The `finally` block deletes it, but if you interrupt the process before that runs, check for a leftover sandbox.
+
 ## Key takeaways so far
 
 1. **Backends abstract the environment** — By using pluggable backends (`FilesystemBackend`, `LocalShell`, `Sandbox`), you can switch an agent from prototyping locally to running securely in the cloud without rewriting its logic.

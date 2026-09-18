@@ -1,6 +1,6 @@
 # DeepAgents Study Labs
 
-I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, and human-in-the-loop approval gates.
+I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, human-in-the-loop approval gates, and teams of subagents that delegate work between them.
 
 ## What are deep agents?
 
@@ -24,9 +24,10 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 | [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, MCP tool integration, and human-in-the-loop approval |
 | [`ExecutionEnvironment/`](./ExecutionEnvironment) | Deep agent workspaces — Filesystem backends, local shells, sandboxes, and Code Interpreter middleware for Programmatic Tool Calling (PTC) |
 | [`ContextManagement/`](./ContextManagement) | Long-term memory — store-backed memory files, composite backends, per-user namespaces, and a homework that proves memory stays isolated between users |
+| [`delegation/`](./delegation) | Subagent teams — a lead agent that coordinates and does no work itself, two specialist workers, and filesystem permissions that give each one a private scratch folder |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Modules 1, 2 and 3 are active. Coming next: planning, sub-agents, and multi-step task exercises.
+> This repository grows as I progress through the course. Modules 1 to 4 are active. Coming next: planning and multi-step task exercises.
 
 ## Getting started
 
@@ -40,7 +41,11 @@ The scripts import a shared `models` module (`from models import model`) that ex
 # models.py
 from langchain.chat_models import init_chat_model
 model = init_chat_model("your-model", model_provider="your-provider")
+strong_model = init_chat_model("your-stronger-model", model_provider="your-provider")
 ```
+
+> [!NOTE]
+> Most scripts only need `model`. The delegation lab also imports `strong_model`, which it uses for the coordinating agent.
 
 Then run any script:
 
@@ -59,6 +64,8 @@ python FirstAgent/scratch_agent.py
 - **Execution environments define bounds** — Filesystem backends and sandboxes let agents safely interact with files without bloating the context window
 - **Programmatic Tool Calling (PTC)** — Using a Code Interpreter as middleware, agents can write Javascript to orchestrate tools, reducing slow LLM round-trips from 5 to 2
 - **Long-term memory is files plus a namespace** — a store-backed `/memories/` route outlives the thread, and the namespace key is what keeps one user's memory out of another's
+- **Delegation is a context boundary** — a subagent starts blank and reports its result rather than its reasoning, so the raw material never reaches the coordinator's prompt
+- **Prompts request, permissions enforce** — a worker told not to read someone else's notes still can; a `FilesystemPermission` deny rule is what makes it true
 
 ---
 
