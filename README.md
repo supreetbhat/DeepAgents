@@ -25,9 +25,11 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 | [`ExecutionEnvironment/`](./ExecutionEnvironment) | Deep agent workspaces — Filesystem backends, local shells, sandboxes, and Code Interpreter middleware for Programmatic Tool Calling (PTC) |
 | [`ContextManagement/`](./ContextManagement) | Long-term memory — store-backed memory files, composite backends, per-user namespaces, and a homework that proves memory stays isolated between users |
 | [`delegation/`](./delegation) | Subagent teams — a lead agent that coordinates and does no work itself, two specialist workers with private scratch folders, and a code-driven workflow that fans one scanner out across a corpus too large for a single context |
+| [`sales_assistant/`](./sales_assistant) | The capstone — a working sales assistant that puts every earlier primitive in one application: four specialists, a read-only SQL boundary, an MCP mailbox, approval gates on both writes, per-subagent memory and three skills |
+| [`deployment/`](./deployment) | Running an agent as a server — a deployed graph with its own tool and persona, driven over the Agent Server API rather than through Studio |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Modules 1 to 4 are active. Coming next: planning and multi-step task exercises.
+> This repository grows as I progress through the course. Modules 1 to 5 are active.
 
 ## Getting started
 
@@ -74,6 +76,10 @@ python FirstAgent/scratch_agent.py
 - **Prompts request, permissions enforce** — a worker told not to read someone else's notes still can; a `FilesystemPermission` deny rule is what makes it true
 - **Dynamic subagents scale past the context window** — a workflow that splits a corpus and dispatches one scanner per section in code reads material the main agent never has to hold
 - **Isolation has a cost worth paying** — a worker that sees one chapter cannot know what a later one explains, so reconciliation becomes the coordinator's job rather than disappearing
+- **Put the gate where the tool lives** — a subagent inherits the main agent's tools, so a gate placed on the coordinator can be routed around by delegating
+- **Enforce at the boundary, not in the prompt** — a read-only connection and a statement check outrank any instruction telling the model to behave
+- **Skills are procedures, memory is standing context** — one describes how to do a job, the other describes the world the job happens in
+- **A deployed agent is a graph plus a manifest** — once it is a server, Studio is just one client among many
 
 ---
 
