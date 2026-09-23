@@ -24,7 +24,7 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 | [`FirstAgent/`](./FirstAgent) | Course fundamentals — baseline agents, persona engineering, custom tool calling, thread persistence with checkpointers, MCP tool integration, and human-in-the-loop approval |
 | [`ExecutionEnvironment/`](./ExecutionEnvironment) | Deep agent workspaces — Filesystem backends, local shells, sandboxes, and Code Interpreter middleware for Programmatic Tool Calling (PTC) |
 | [`ContextManagement/`](./ContextManagement) | Long-term memory — store-backed memory files, composite backends, per-user namespaces, and a homework that proves memory stays isolated between users |
-| [`delegation/`](./delegation) | Subagent teams — a lead agent that coordinates and does no work itself, two specialist workers, and filesystem permissions that give each one a private scratch folder |
+| [`delegation/`](./delegation) | Subagent teams — a lead agent that coordinates and does no work itself, two specialist workers with private scratch folders, and a code-driven workflow that fans one scanner out across a corpus too large for a single context |
 
 > [!NOTE]
 > This repository grows as I progress through the course. Modules 1 to 4 are active. Coming next: planning and multi-step task exercises.
@@ -33,6 +33,12 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 
 ```bash
 pip install deepagents langchain-core langchain-mcp-adapters langgraph
+```
+
+The scripts that use the code interpreter — Programmatic Tool Calling in `ExecutionEnvironment/`, and the dynamic workflow in `delegation/clue-finder.py` — need one more package:
+
+```bash
+pip install langchain-quickjs
 ```
 
 The scripts import a shared `models` module (`from models import model`) that exposes your configured chat model, so set that up first with your provider of choice:
@@ -66,6 +72,8 @@ python FirstAgent/scratch_agent.py
 - **Long-term memory is files plus a namespace** — a store-backed `/memories/` route outlives the thread, and the namespace key is what keeps one user's memory out of another's
 - **Delegation is a context boundary** — a subagent starts blank and reports its result rather than its reasoning, so the raw material never reaches the coordinator's prompt
 - **Prompts request, permissions enforce** — a worker told not to read someone else's notes still can; a `FilesystemPermission` deny rule is what makes it true
+- **Dynamic subagents scale past the context window** — a workflow that splits a corpus and dispatches one scanner per section in code reads material the main agent never has to hold
+- **Isolation has a cost worth paying** — a worker that sees one chapter cannot know what a later one explains, so reconciliation becomes the coordinator's job rather than disappearing
 
 ---
 
