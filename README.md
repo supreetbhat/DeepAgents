@@ -1,6 +1,6 @@
 # DeepAgents Study Labs
 
-I'm working through agentic AI coursework as part of an ongoing daily study practice, and everything I build lands here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, human-in-the-loop approval gates, and teams of subagents that delegate work between them.
+Everything I built while working through LangChain Academy's [Introduction to Deep Agents](https://academy.langchain.com/courses/foundation-introduction-to-deepagents) course lives here — from the first "hello world" agent to persona experiments, tool-calling exercises, memory/checkpointing, MCP integrations, human-in-the-loop approval gates, teams of subagents that delegate work between them, a deployed sales assistant, and a supervisor that runs its subagents as background jobs.
 
 ## What are deep agents?
 
@@ -27,9 +27,10 @@ result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 | [`delegation/`](./delegation) | Subagent teams — a lead agent that coordinates and does no work itself, two specialist workers with private scratch folders, and a code-driven workflow that fans one scanner out across a corpus too large for a single context |
 | [`sales_assistant/`](./sales_assistant) | The capstone — a working sales assistant that puts every earlier primitive in one application: four specialists, a read-only SQL boundary, an MCP mailbox, approval gates on both writes, per-subagent memory and three skills |
 | [`deployment/`](./deployment) | Running an agent as a server — a deployed graph with its own tool and persona, driven over the Agent Server API rather than through Studio |
+| [`async_lab/`](./async_lab) | Async subagents — a light supervisor that launches slow analysis jobs on a separate deployment over HTTP, gets task IDs back immediately, and can check, update or cancel them while it keeps talking to the user |
 
 > [!NOTE]
-> This repository grows as I progress through the course. Modules 1 to 5 are active.
+> The course is complete. All five modules are here, from a single model call to a supervisor managing background jobs on a second server.
 
 ## Getting started
 
@@ -61,6 +62,8 @@ Then run any script:
 python FirstAgent/scratch_agent.py
 ```
 
+The Module 5 folders (`sales_assistant/`, `deployment/`, `async_lab/`) run as servers instead of scripts, so they also need the LangGraph CLI and are started with `uv run langgraph dev`. The async lab runs two servers side by side; its [README](./async_lab/README.md) has the order.
+
 ## What I'm learning
 
 - **Agents vs. chatbots** — a model plus tools plus state can act, not just answer
@@ -80,6 +83,8 @@ python FirstAgent/scratch_agent.py
 - **Enforce at the boundary, not in the prompt** — a read-only connection and a statement check outrank any instruction telling the model to behave
 - **Skills are procedures, memory is standing context** — one describes how to do a job, the other describes the world the job happens in
 - **A deployed agent is a graph plus a manifest** — once it is a server, Studio is just one client among many
+- **Delegation does not have to block** — an async subagent returns a task ID at once, so the user keeps a responsive agent while slow work runs elsewhere, and can redirect or cancel it midway
+- **Bookkeeping belongs outside the transcript** — task IDs live in their own state channel, because a conversation that gets summarised to fit the context window would otherwise forget its own jobs
 
 ---
 

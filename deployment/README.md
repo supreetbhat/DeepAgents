@@ -24,7 +24,7 @@ graph = create_deep_agent(model=model, tools=[lookup_fact], system_prompt=SYSTEM
 The prompt does the work that the tool cannot: it tells the agent to answer only from `lookup_fact`, to lowercase the name before calling it, and to say nothing rather than guess when there is no match. That last instruction is the whole point of giving an agent a lookup tool in the first place.
 
 > [!NOTE]
-> The file currently holds the agent definition rather than the API client, although its name suggests the opposite. The HTTP client half of the homework, the part that calls the deployed graph over the Agent Server API instead of using Studio, is still to come.
+> The file currently holds the agent definition rather than the API client, although its name suggests the opposite. The HTTP client half of the homework, the part that calls the deployed graph over the Agent Server API instead of using Studio, is not included; the Run section below describes the calls it would make.
 
 ## Requirements
 

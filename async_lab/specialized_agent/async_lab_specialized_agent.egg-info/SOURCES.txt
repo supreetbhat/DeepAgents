@@ -1,7 +1,0 @@
-agent.py
-pyproject.toml
-async_lab_specialized_agent.egg-info/PKG-INFO
-async_lab_specialized_agent.egg-info/SOURCES.txt
-async_lab_specialized_agent.egg-info/dependency_links.txt
-async_lab_specialized_agent.egg-info/requires.txt
-async_lab_specialized_agent.egg-info/top_level.txt
